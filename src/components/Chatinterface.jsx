@@ -41,7 +41,7 @@ const ChatInterface = ({ setFilteredProducts }) => {
         onChange={(e) => setQuery(e.target.value)}
         placeholder='Try "Find SKU 1234" or "black shoes under 50"'
       />
-      <button onClick={handleSend}>Send</button>
+      <button  className='chat-serchbtn'onClick={handleSend}>Send</button>
     </div>
   );
 };

@@ -32,7 +32,8 @@
     background-color:chocolate;
     color: white;
     border: none;
-    border-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
     cursor: pointer;
     transition: background-color 0.3s ease;
     width: 100%;
