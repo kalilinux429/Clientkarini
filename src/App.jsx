@@ -1,6 +1,4 @@
 
-
-
 import React, { useState, useEffect } from 'react';
 import { CartProvider } from './context/CartContext';
 import ProductCard from './components/ProductCard';
@@ -15,6 +13,7 @@ const App = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [showCart, setShowCart] = useState(false);
+  const [loading, setLoading] = useState(true); // New loading state
 
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -29,6 +28,8 @@ const App = () => {
         setFilteredProducts(data); // Initialize with full list
       } catch (error) {
         console.error(`Error fetching data:`, error);
+      } finally {
+        setLoading(false); // Set loading to false after fetch
       }
     };
     fetchData();
@@ -70,19 +71,24 @@ const App = () => {
         <CartIcon onClick={() => setShowCart(!showCart)} />
         {showCart && <Cart />}
 
-        <div className="product-list">
-          {currentProducts.map(product => (
-            <ProductCard key={product._id} product={product} />
-          ))}
-        </div>
+        {/* Show loading status while fetching data */}
+        {loading ? (
+          <div className="loading">Loading products...</div> // Customize this as you like (e.g., spinner)
+        ) : (
+          <div className="product-list">
+            {currentProducts.map(product => (
+              <ProductCard key={product._id} product={product} />
+            ))}
+          </div>
+        )}
 
         {filteredProducts.length > 0 && (
-  <div className="pagination-controls">
-    <button onClick={handlePrev} disabled={currentPage === 1}>Prev</button>
-    <span> Page {currentPage} of {totalPages} </span>
-    <button onClick={handleNext} disabled={currentPage === totalPages}>Next</button>
-  </div>
-)}
+          <div className="pagination-controls">
+            <button onClick={handlePrev} disabled={currentPage === 1}>Prev</button>
+            <span> Page {currentPage} of {totalPages} </span>
+            <button onClick={handleNext} disabled={currentPage === totalPages}>Next</button>
+          </div>
+        )}
       </div>
     </CartProvider>
   );
